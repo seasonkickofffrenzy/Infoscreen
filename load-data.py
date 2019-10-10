@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+import requests
+from os import listdir, mkdir, chdir
+import json
+
+def doAnilistRequest(animeId):
+  query = '''
+  query ($id: Int) {
+    Media(id: $id) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      description
+      coverImage {
+        extraLarge
+        color
+      }
+      isAdult
+    }
+  }
+  '''
+  # Define our query variables and values that will be used in the query request
+  variables = {
+      'id': animeId
+  }
+  url = 'https://graphql.anilist.co'
+  # Make the HTTP Api request
+  response = requests.post(url, json={'query': query, 'variables': variables})
+  return response.json()
+
+mkdir("infobeamer-package")
+chdir("infobeamer-package")
+data = dict()
+for i in listdir("../todo"):
+  print(i)
+  animeId = i.split("-")[-1].split(".")[0].strip()
+  result = doAnilistRequest(animeId)["data"]["Media"]
+  data[animeId] = result
+
+  try:
+    imageUrl = result["coverImage"]["extraLarge"]
+    filename = imageUrl.split("/")[-1]
+    imageRequest = requests.get(imageUrl)
+    with open(filename, 'wb') as f:
+      f.write(imageRequest.content)
+  except KeyError:
+    print("no image found")
+
+
+with open('data.json','w') as file:
+  json.dump(data, file, sort_keys=True, indent=4, ensure_ascii=False)
