@@ -2,6 +2,7 @@
 import requests
 from os import listdir, mkdir, chdir
 import json
+from shutil import copyfile
 
 def doAnilistRequest(animeId):
   query = '''
@@ -31,11 +32,19 @@ def doAnilistRequest(animeId):
   response = requests.post(url, json={'query': query, 'variables': variables})
   return response.json()
 
+print("Making dir...")
 mkdir("infobeamer-package")
 chdir("infobeamer-package")
+
+print("Copying infobeamer-code and metadata...")
+for i in listdir("../infobeamer-package-template"):
+  print("  ",i)
+  copyfile("../infobeamer-package-template/"+i, i)
+
+print("Loading data...")
 data = dict()
 for i in listdir("../todo"):
-  print(i)
+  print("  ",i)
   animeId = i.split("-")[-1].split(".")[0].strip()
   result = doAnilistRequest(animeId)["data"]["Media"]
   data[animeId] = result
@@ -52,3 +61,4 @@ for i in listdir("../todo"):
 
 with open('data.json','w') as file:
   json.dump(data, file, sort_keys=True, indent=4, ensure_ascii=False)
+
