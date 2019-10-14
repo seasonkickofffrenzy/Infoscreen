@@ -57,6 +57,15 @@ util.file_watch("data.json", function(content)
     updateData()
 end)
 
+node.event("data", function(data, suffix)
+   print("Got data. suffix: ", suffix, ", data:", data)
+   if suffix == "anime" then
+     print("Loading anime")
+     animeId = data
+     updateData()
+   end
+end)
+
 function node.render()
     gl.clear(0,0,0,1)
     util.draw_correct(image, WIDTH/2, HEIGHT*13/100, WIDTH, HEIGHT)
