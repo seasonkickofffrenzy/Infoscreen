@@ -20,6 +20,7 @@ end
 gl.setup(1920, 1080) --FOR NATIVE
 --gl.setup(NATIVE_WIDTH, NATIVE_HEIGHT) --FOR HOSTED
 local font = resource.load_font("font.ttf")
+local fontNative = resource.load_font("NotoSansJP-Light.otf")
 local animeId = 104723 
 --local animeId = 105333
 --local animeId = 107876
@@ -68,12 +69,12 @@ end)
 
 function node.render()
     gl.clear(0,0,0,1)
-    util.draw_correct(image, WIDTH/2, HEIGHT*13/100, WIDTH, HEIGHT)
+    util.draw_correct(image, WIDTH/2, HEIGHT*20/100, WIDTH, HEIGHT)
     font:write(0, 20, title, 60, 1,1,1,1)
     font:write(0, 80, subTitle, 50, 1,1,1,1)
     --TODO: Font suchen, die das kann
-    --font:write(0,140, nativeTitle, 50, 1,1,1,1)
+    fontNative:write(0,140, nativeTitle, 50, 1,1,1,1)
     for idx, line in ipairs(description) do
-        font:write(20, 140 + idx * 40, line, 40, 1,1,1,0.9)
+        font:write(20, 180 + idx * 40, line, 40, 1,1,1,0.9)
     end
 end
