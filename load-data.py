@@ -35,6 +35,7 @@ def doAnilistRequest(animeId):
 
 print("Making dir...")
 mkdir("infobeamer-package")
+mkdir("covers")
 chdir("infobeamer-package")
 
 print("Copying infobeamer-code and metadata...")
@@ -55,6 +56,8 @@ for i in listdir("../todo"):
     filename = imageUrl.split("/")[-1]
     imageRequest = requests.get(imageUrl)
     with open(filename, 'wb') as f:
+      f.write(imageRequest.content)
+    with open("../covers/"+i+".png", 'wb') as f:
       f.write(imageRequest.content)
   except KeyError:
     print("no image found")
