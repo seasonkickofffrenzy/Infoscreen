@@ -21,7 +21,8 @@ gl.setup(1920, 1080) --FOR NATIVE
 --gl.setup(NATIVE_WIDTH, NATIVE_HEIGHT) --FOR HOSTED
 local font = resource.load_font("font.ttf")
 local fontNative = resource.load_font("NotoSansJP-Light.otf")
-local animeId = 104723 
+local animeID
+--local animeId = 104723 
 --local animeId = 105333
 --local animeId = 107876
 local data
@@ -32,6 +33,10 @@ local nativeTitle = ""
 local description = {}
 
 local updateData = function()
+    if animeId == nil then
+      title = "Waiting for data..."
+      return
+    end
     local animeIdStr = tostring(animeId)
     local anime = data[animeIdStr]
     if anime == nil then
