@@ -66,9 +66,13 @@ print("Writing JSON...")
 with open('data.json','w') as file:
   json.dump(data, file, sort_keys=True, indent=4, ensure_ascii=False)
 
+
+from os import listdir
+import zipfile
 print("Writing ZIP-File...")
 zipf = zipfile.ZipFile('../infobeamer-package.zip', 'w', zipfile.ZIP_DEFLATED)
 for i in listdir("."):
   print("  ",i)
   zipf.write(i)
+
 zipf.close()
