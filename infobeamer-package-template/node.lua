@@ -67,7 +67,7 @@ node.event("data", function(data, suffix)
    print("Got data. suffix: ", suffix, ", data:", data)
    if suffix == "anime" then
      print("Loading anime")
-     animeId = data
+     animeId = tonumber(data)
      updateData()
    end
 end)
